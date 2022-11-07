@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MD4</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Login</h1>
+
+<div>
+    <table>
+        <tr>
+            <td>Username Or Email</td>
+            <td><input type="text" id="username"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" id="password"></td>
+        </tr>
+        <tr>
+            <td>
+                <a href="register.html">Register</a>
+            </td>
+            <td>
+                <button id="btn-login">login</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('#btn-login').click(function () {
+            let loginData = {
+                username: $('#username').val(),
+                password: $('#password').val()
+            };
+            $.ajax({
+                url: 'http://localhost:8080/api/auth/login',
+                method: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(loginData),
+                success: function (response) {
+                    console.log(response)
+                    console.log(response.token)
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        });
+    })
+</script>
+
+</body>
+</html>
+
