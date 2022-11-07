@@ -45,12 +45,14 @@
                 method: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(loginData),
-                success: function (response) {
-                    console.log(response)
-                    console.log(response.token)
+                success: function (data) {
+                    console.log(data)
+                    window.localStorage.setItem('NAME_KEY', data.name);
+                    window.localStorage.setItem('AVATAR_KEY',data.avatar);
+                    window.localStorage.setItem('TOKEN_KEY',data.token);
                 },
                 error: function (e) {
-                    console.log(e)
+
                 }
             });
         });
