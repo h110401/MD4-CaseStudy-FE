@@ -48,8 +48,9 @@
                 success: function (data) {
                     console.log(data)
                     window.localStorage.setItem('NAME_KEY', data.name);
-                    window.localStorage.setItem('AVATAR_KEY',data.avatar);
-                    window.localStorage.setItem('TOKEN_KEY',data.token);
+                    window.localStorage.setItem('AVATAR_KEY', data.avatar);
+                    window.localStorage.setItem('TOKEN_KEY', data.token);
+                    window.location.href = "../home-manager/home.html";
                 },
                 error: function (e) {
 
