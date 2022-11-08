@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>MD4</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="../fragment/include.js"></script>
 </head>
 <body>
+
+<div id="header"></div>
+
 <h1>Login</h1>
 
 <div>
@@ -45,8 +48,9 @@
                 success: function (data) {
                     console.log(data)
                     window.localStorage.setItem('NAME_KEY', data.name);
-                    window.localStorage.setItem('AVATAR_KEY',data.avatar);
-                    window.localStorage.setItem('TOKEN_KEY',data.token);
+                    window.localStorage.setItem('AVATAR_KEY', data.avatar);
+                    window.localStorage.setItem('TOKEN_KEY', data.token);
+                    window.location.href = "../home-manager/home.html";
                 },
                 error: function (e) {
 
@@ -55,6 +59,8 @@
         });
     })
 </script>
+
+<div id="footer"></div>
 
 </body>
 </html>
