@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+delete ?
+<button onclick="deleteSeries()">Yes</button>
+<a href="list.html">
+    <button>No</button>
+</a>
+</body>
+<script>
+    let query = window.location.search;
+    let id = new URLSearchParams(query).get("id");
+
+    $(function () {
+
+
+    })
+
+    function deleteSeries() {
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/series/' + id,
+            method: 'DELETE',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function () {
+                window.location.href = '../series/list.html';
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+</script>
+</html>
