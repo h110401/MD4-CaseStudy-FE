@@ -88,6 +88,32 @@ Search video<br>
 
 
     $(function () {
+
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/categories',
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/countries',
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+
         let input = $('#posterInput');
         input.on('change', function () {
             $('#poster').append(`
