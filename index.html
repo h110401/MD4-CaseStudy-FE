@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
+<div id="header"></div>
 <a href="auth/login.html">Login</a><br>
 <a href="auth/register.html">Register</a>
 <h1>Home</h1>
 <iframe src="https://www.youtube.com/embed/Ci34un4CVZU" frameborder="0"></iframe>
 </body>
+<script>
+    $(function () {
+        $('#header').load("/fragment/header.html")
+        $('#footer').load("/fragment/footer.html")
+    })
+</script>
 </html>
