@@ -95,13 +95,13 @@
                     window.sessionStorage.setItem('ROLE_KEY',JSON.stringify(data.roles))
                     console.log("data .role",data.roles)
                     if(check(data.authorities,"ROLE_ADMIN")){
-                        window.location.href = '/home-manager/homeAdmin.html';
+                        window.location.href = '../home-manager/homeAdmin.html';
 
                     }else if (check(data.authorities,"ROLE_PM")){
-                        window.location.href = '/home-manager/HomePm.html';
+                        window.location.href = '../home-manager/HomePm.html';
                     }
                     else {
-                        window.location.href = '/home-manager/HomeUser.html';
+                        window.location.href = '../home-manager/HomeUser.html';
                     }
                 }
             })
