@@ -5,63 +5,241 @@
     <title>MD4</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="../fragment/include.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
 <div id="header"></div>
 
-<h1>Login</h1>
+<section class="h-100 gradient-form" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+                <div class="card rounded-3 text-black">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="card-body p-md-5 mx-md-4">
 
-<div>
-    <table>
-        <tr>
-            <td>Username Or Email</td>
-            <td><input type="text" id="username"></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" id="password"></td>
-        </tr>
-        <tr>
-            <td>
-                <a href="register.html">Register</a>
-            </td>
-            <td>
-                <button id="btn-login">login</button>
-            </td>
-        </tr>
-    </table>
-</div>
+                                <div class="text-center">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                                         style="width: 185px;" alt="logo">
+                                    <h4 class="mt-1 mb-5 pb-1">We are The Team 1</h4>
+                                </div>
+                                    <p>Please login to your account</p>
 
+                                    <div class="form-outline mb-4">
+                                        <input id="username" type="email" id="form2Example11" class="form-control"
+                                               placeholder="Username or email " />
+                                        <label class="form-label" for="form2Example11">Username</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input id="pass" type="password" id="form2Example22" class="form-control" />
+                                        <label class="form-label" for="form2Example22">Password</label>
+                                    </div>
+
+                                    <div class="text-center pt-1 mb-5 pb-1">
+                                       <button id="btn-login" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">
+                                           <a href="/home-manager"></a> Log in</button>
+                                        <a class="text-muted" href="#!">Forgot password?</a>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-center pb-4">
+                                        <p class="mb-0 me-2">Don't have an account?</p>
+                                        <a href="register.html"><button type="button" class="btn btn-outline-danger">Create new</button></a>
+                                    </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                            <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                                <h3 class="mb-4">We are a champion</h3>
+                                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <script>
-    $(function () {
-        $('#btn-login').click(function () {
-            let loginData = {
-                username: $('#username').val(),
-                password: $('#password').val()
-            };
+    $(document).ready(function (){
+        let signInForm = {};
+        $('#btn-login').click(function (){
+            signInForm.username = $('#username').val();
+            signInForm.password = $('#pass').val();
+            let signInFormOBJ = JSON.stringify(signInForm);
+            console.log('signInFormOBJ === ', signInFormOBJ)
             $.ajax({
                 url: 'http://localhost:8080/api/auth/login',
                 method: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(loginData),
-                success: function (data) {
-                    console.log(data)
-                    window.localStorage.setItem('NAME_KEY', data.name);
-                    window.localStorage.setItem('AVATAR_KEY', data.avatar);
-                    window.localStorage.setItem('TOKEN_KEY', data.token);
-                    window.location.href = "../home-manager/home.html";
-                },
-                error: function (e) {
+                data: signInFormOBJ,
+                contentType: 'application/json; charset=UTF-8',
+                success: function (data){
+                    console.log('data login ===> ',data)
+                    window.sessionStorage.setItem("currentUser", JSON.stringify(data));
+                    window.sessionStorage.setItem('TOKEN_KEY', data.token);
+                    window.sessionStorage.removeItem('NAME_KEY',data.name);
+                    window.sessionStorage.setItem('USERNAME_KEY',data.username);
+                    window.sessionStorage.removeItem('AVATAR_KEY',data.avatar);
+                    window.sessionStorage.setItem('EMAIL_KEY',data.email);
+                    window.sessionStorage.setItem('ROLE_KEY',JSON.stringify(data.roles))
+                    console.log("data .role",data.roles)
+                    if(check(data.authorities,"ROLE_ADMIN")){
+                        window.location.href = '/home-manager/homeAdmin.html';
 
+                    }else if (check(data.authorities,"ROLE_PM")){
+                        window.location.href = '/home-manager/HomePm.html';
+                    }
+                    else {
+                        window.location.href = '/home-manager/HomeUser.html';
+                    }
                 }
-            });
-        });
+            })
+        })
     })
+    function check(roles,check){
+        for (let i = 0; i < roles.length; i++) {
+            console.log("role[i]",roles[i])
+            if (roles[i].authority === check){
+                return true;
+            }
+
+        }
+        return false;
+    }
 </script>
 
-<div id="footer"></div>
+<footer class="text-center text-white" style="background-color: #caced1;">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!-- Section: Images -->
+        <section class="">
+            <div class="row">
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/113.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/111.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/112.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/114.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/115.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
+                    <div
+                            class="bg-image hover-overlay ripple shadow-1-strong rounded"
+                            data-ripple-color="light"
+                    >
+                        <img
+                                src="https://mdbcdn.b-cdn.net/img/new/fluid/city/116.webp"
+                                class="w-100"
+                        />
+                        <a href="#!">
+                            <div
+                                    class="mask"
+                                    style="background-color: rgba(251, 251, 251, 0.2);"
+                            ></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section: Images -->
+    </div>
+    <!-- Grid container -->
 
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
 </body>
 </html>
 

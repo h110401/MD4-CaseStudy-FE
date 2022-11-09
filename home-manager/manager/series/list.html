@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Series</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<p><a href="../../homeAdmin.html">Back</a></p>
+
+<a href="create.html">Create</a>
+<table border="1">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Poster</td>
+        <td>Description</td>
+        <td>Category</td>
+        <td>Country</td>
+        <td>User</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+    </thead>
+    <tbody id="table-body">
+
+    </tbody>
+</table>
+
+
+<script>
+    $(function () {
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/series',
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    for (const element of data) {
+                        $('#table-body').append(`
+                            <tr>
+                                <td>${element.id}</td>
+                                <td>${element.name}</td>
+                                <td><img src="${element.poster}" alt="poster" width="100"></td>
+                                <td>${element.description}</td>
+                                <td>${element.category[0] ? element.category[0].name : 'null'}</td>
+                                <td>${element.country ? element.country.name : 'null'}</td>
+                                <td>${element.user ? element.user.name : 'null'}</td>
+                                <td><a href="edit.html?id=${element.id}">Edit</a></td>
+                                <td><a href="delete.html?id=${element.id}">Delete</a></td>
+                                <td><a href="add-video.html?id=${element.id}">Add video</a></td>
+                            </tr>
+                        `)
+                    }
+                }
+
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    })
+</script>
+</body>
+</html>

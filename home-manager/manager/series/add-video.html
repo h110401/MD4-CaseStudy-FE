@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add video</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<p><a href="list.html">Back</a></p>
+<h1 id="title"></h1>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+    </tr>
+    <tbody id="tbody">
+    </tbody>
+</table>
+Search video<br>
+<input type="text" id="search">
+<button id="btn-search">Search</button>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+    </tr>
+    <tbody id="videos">
+
+    </tbody>
+</table>
+
+</body>
+<script>
+    $(function () {
+        let query = window.location.search;
+        let id = new URLSearchParams(query).get('id')
+        $('#title').text(`Add video to series ` + id);
+
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/series/' + id,
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                let videos = data.videos;
+                for (let i = 1; i <= Object.keys(videos).length; i++) {
+                    $('#tbody').append(`
+                <tr>
+                    <td>${videos[i].id}</td>
+                    <td>${videos[i].name}</td>
+                </tr>
+                `);
+                    console.log(videos)
+                }
+            }
+        })
+
+        $('#btn-search').click(function () {
+            let search = $('#search').val()
+            if (search.trim() !== '') {
+                $.ajax({
+                    url: 'http://localhost:8080/api/manager/videos/search/' + search,
+                    method: 'GET',
+                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                    success: function (data) {
+                        console.log(data)
+                        if (data.length > 0) {
+                            let videos = $('#videos');
+                            videos.empty();
+                            for (const video of data) {
+                                videos.append(`
+                                <tr id="row${video.id}">
+                                    <td>${video.id}</td>
+                                    <td>${video.name}</td>
+                                    <td id="col${video.id}"><button onclick="(function () {
+                                      $.ajax({
+                                        url:  'http://localhost:8080/api/manager/series/' + ${id} + '/add/' + ${video.id},
+                                        method: 'PUT',
+                                        headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                                        success: function() {
+                                          console.log('success')
+                                          window.location.reload();
+                                        }, error: function() {
+                                          console.log('error')
+                                        }
+                                      })
+                                    })()">Add</button></td>
+                                </tr>
+                            `)
+                            }
+                        }
+                    }
+                })
+
+            }
+        })
+    })
+
+
+</script>
+</html>

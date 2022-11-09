@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
+<p><a href="listCountry.html">Back</a></p>
 <table border="1">
     <p id="edit"></p>
     <tr>
@@ -13,47 +14,51 @@
         <td><input type="text" id="nameCountry"></td>
     </tr>
     <tr>
-        <td> <button onclick="editCountry()">edit</button></td>
+        <td>
+            <button onclick="editCountry()">edit</button>
+        </td>
         <td><a href="listCountry.html">back</a></td>
     </tr>
 </table>
 <script>
     let query = window.location.search;
     let id = new URLSearchParams(query).get("id");
-    $(document).ready(function (){
-getCountry();
-
-
-
+    $(document).ready(function () {
+        getCountry();
     })
-    function getCountry(){
+
+    function getCountry() {
         $.ajax({
-            url:'http://localhost:8080/api/manager/countries/'+id,
-            method:'GET',
-            contentType:'application/Json; charset=UTF-8',
-            success: function (data){
+            url: 'http://localhost:8080/api/manager/countries/' + id,
+            method: 'GET',
+            headers:{
+                Authorization: window.localStorage.getItem('TOKEN_KEY')
+            },
+            contentType: 'application/Json; charset=UTF-8',
+            success: function (data) {
                 $('#nameCountry').val(data.name);
                 return;
             },
-            error: function (){
+            error: function () {
                 document.getElementById('delete').innerHTML = "country does not exist!!";
             }
         })
     }
-    function editCountry(){
+
+    function editCountry() {
         let country = {
-            name : $('#nameCountry').val()
+            name: $('#nameCountry').val()
         }
         $.ajax({
-            url:'http://localhost:8080/api/manager/countries/'+id,
+            url: 'http://localhost:8080/api/manager/countries/' + id,
             method: 'PUT',
-            data:JSON.stringify(country),
-            contentType:'application/Json; charset=UTF-8',
-            success: function (){
+            data: JSON.stringify(country),
+            contentType: 'application/Json; charset=UTF-8',
+            success: function () {
                 document.getElementById('edit').innerHTML = "edit success!"
                 return;
             },
-            error : function (){
+            error: function () {
                 document.getElementById('edit').innerHTML = "edit failer"
             }
         })
