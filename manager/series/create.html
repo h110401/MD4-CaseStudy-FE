@@ -35,12 +35,33 @@
         <td><input type="text"></td>
     </tr>
     <tr>
+        <td colspan="2">
+            <table id="addedVideos" border="1">
+            </table>
+        </td>
+    </tr>
+    <tr>
         <td><br>
             <button id="btn-create">Create</button>
         </td>
         <td></td>
     </tr>
 </table>
+Search video<br>
+<input type="text" id="search">
+<button id="btn-search">Search</button>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+    </tr>
+    <tbody id="videos">
+
+    </tbody>
+</table>
+<script>
+    videos = [];
+</script>
 <script type="module">
     import {initializeApp} from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
     import {
@@ -61,6 +82,10 @@
     };
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
+
+    let query = window.location.search;
+    let id = new URLSearchParams(query).get('id')
+
 
     $(function () {
         let input = $('#posterInput');
@@ -111,7 +136,52 @@
             }
 
         })
+
+        $('#btn-search').click(function () {
+            let search = $('#search').val()
+            if (search.trim() !== '') {
+                $.ajax({
+                    url: 'http://localhost:8080/api/manager/videos/search/' + search,
+                    method: 'GET',
+                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                    success: function (data) {
+                        console.log(data)
+                        if (data.length > 0) {
+                            let videos = $('#videos');
+                            videos.empty();
+                            for (const video of data) {
+                                videos.append(`
+                                <tr id="row${video.id}">
+                                    <td>${video.id}</td>
+                                    <td>${video.name}</td>
+                                    <td id="col${video.id}"><button onclick="(function () {
+                                        let check = true;
+                                        for (const i of videos) {
+                                            if(i === ${video.id}) {
+                                                check = false;
+                                            }
+                                        }
+                                        if(check) {
+                                            videos.push(${video.id})
+                                            $('#addedVideos').append($('#row${video.id}').html())
+                                            $('#row${video.id}').remove();
+                                            $('#col${video.id}').remove()
+                                        }
+                                        console.log(videos)
+                                    })()">Add</button></td>
+                                </tr>
+                            `)
+                            }
+                        }
+                    }
+                })
+
+            }
+        })
+
     })
+
+
 </script>
 </body>
 </html>
