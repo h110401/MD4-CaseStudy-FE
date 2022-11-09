@@ -16,10 +16,10 @@
     <tr>
         <th>ID</th>
         <th>NAME</th>
-        <th>USER</th>
         <th>VIDEO</th>
         <th>CATEGORY</th>
         <th>COUNTRY</th>
+        <th>USERS</th>
         <th>EDIT</th>
         <th>DELETE</th>
     </tr>
@@ -36,29 +36,29 @@
         $.ajax({
             url: url,
             method: 'GET',
-<<<<<<< HEAD:film/listFilm.html
-
-=======
             headers:{
                 Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
             },
->>>>>>> a88e82cc960b482fac6b5cd8b7ab83872f6fc7b1:home-manager/manager/film/listFilm.html
             contentType: 'application/Json; charset=UTF-8',
             success: function (data) {
                 let drawTable = ''
                 for (let i = 0; i < data.length; i++) {
-                    console.log("data".data[i])
+                    console.log("data",data.length)
                     drawTable += `<tr>
 <td>${data[i].id}</td>
 <td>${data[i].name}</td>
+ <td>${data[i].video}</td>
+ <td>${data[i].categories}</td>
+ <td>${data[i].country}</td>
  <td>${data[i].user.name}</td>
  <td><a href="deleteFilm.html?id=${data[i].id}">Delete</a></td>
   <td><a href="editFilm.html?id=${data[i].id}">Edit</a></td>
 </tr>`
                 }
                 document.getElementById('tbody').innerHTML = drawTable
-
-
+            },
+            error:function (error){
+                console.log("error",error)
             }
 
         })
