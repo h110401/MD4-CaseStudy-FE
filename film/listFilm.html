@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<a href="createFilm.html">Create Film</a>
+<table border="1">
+    <THEAD>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>USER</th>
+        <th>VIDEO</th>
+        <th>CATEGORY</th>
+        <th>COUNTRY</th>
+        <th>EDIT</th>
+        <th>DELETE</th>
+    </tr>
+    </THEAD>
+    <tbody id="tbody"></tbody>
+</table>
+<script>
+    let url = "http://localhost:8080/api/manager/films";
+    $(document).ready(function () {
+        showListFilm();
+    })
+
+    function showListFilm() {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            contentType: 'application/Json; charset=UTF-8',
+            success: function (data) {
+                let drawTable = ''
+                for (let i = 0; i < data.length; i++) {
+                    console.log("data".data[i])
+                    drawTable += `<tr>
+<td>${data[i].id}</td>
+<td>${data[i].name}</td>
+ <td>${data[i].user.name}</td>
+ <td><a href="deleteFilm.html?id=${data[i].id}">Delete</a></td>
+  <td><a href="editFilm.html?id=${data[i].id}">Edit</a></td>
+</tr>`
+                }
+                document.getElementById('tbody').innerHTML = drawTable
+
+
+            }
+
+        })
+
+    }
+
+
+</script>
+
+</body>
+</html>
