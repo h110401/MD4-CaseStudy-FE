@@ -6,7 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<p><a href="../home.html">Back</a></p>
+<p><a href="../../homeAdmin.html">Back</a></p>
 <a href="createCategory.html">Create Category</a>
 <table border="1">
     <thead>
@@ -30,6 +30,9 @@
         $.ajax({
             url: url,
             method: 'GET',
+            headers:{
+                Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+            },
             contentType: 'application/Json; charset=UTF-8',
             success: function (data) {
                 let drawTable = ''
