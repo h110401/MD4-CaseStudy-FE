@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
+<p><a href="list.html">Back</a></p>
 <h1>Edit series</h1>
 <table>
     <tr>
@@ -26,11 +27,11 @@
     </tr>
     <tr>
         <td>Category</td>
-        <td><input type="text"></td>
+        <td><select id="selectCategory" multiple></select></td>
     </tr>
     <tr>
         <td>Country</td>
-        <td><input type="text"></td>
+        <td><select id="selectCountry"></select></td>
     </tr>
     <tr>
         <td><br>
@@ -64,14 +65,59 @@
     let id = new URLSearchParams(query).get("id");
     $(function () {
         $.ajax({
+            url: 'http://localhost:8080/api/manager/categories',
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                let selectCategory = $('#selectCategory');
+                selectCategory.empty();
+                if (data.length > 0) {
+                    for (const cate of data) {
+                        selectCategory.append(`
+                            <option value="${cate.id}">${cate.name}</option>
+                        `)
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/countries',
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                let selectCountry = $('#selectCountry');
+                selectCountry.empty();
+                if (data.length > 0) {
+                    for (const country of data) {
+                        selectCountry.append(`
+                            <option value="${country.id}">${country.name}</option>
+                        `)
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+        $.ajax({
             url: 'http://localhost:8080/api/manager/series/' + id,
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
+                console.log(data)
+                $.each(data.category, function (i, c) {
+                    $(`#selectCategory option[value="${c.id}"]`).prop('selected', true)
+                })
                 $('#name').val(data.name);
                 $('#description').val(data.description);
                 $('#poster').html(`<img src="${data.poster}" width="300">`);
                 $('#downloadUrl').val(data.poster);
+                $('#selectCountry').val(data.country.id)
             },
             error: function (error) {
                 console.log(error)
@@ -87,40 +133,62 @@
             let series = {
                 name: $('#name').val(),
                 poster: '',
-                description: $('#description').val()
+                description: $('#description').val(),
+                idCategories: $('#selectCategory').val(),
+                idCountry: $('#selectCountry').val(),
             }
 
-            let data = input.prop('files')
-            let file = data[0];
-            let location = ref(storage, '/images/posters/poster-' + series.name);
-            if (series.name.trim() !== '') {
-                let uploadTask = uploadBytesResumable(location, file)
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        let progress = snapshot.bytesTransferred / snapshot.totalBytes * 100
-                        $('#progress').val(progress);
-                    }, (error) => {
-                    }, () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then(
-                            (downloadUrl) => {
-                                series.poster = downloadUrl;
-                                $.ajax({
-                                    url: 'http://localhost:8080/api/manager/series/' + id,
-                                    method: 'PUT',
-                                    contentType: 'application/json; charset=UTF-8',
-                                    data: JSON.stringify(series),
-                                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
-                                    success: function (data) {
-                                        console.log(data)
-                                    },
-                                    error: function () {
-                                        console.log('error')
-                                    }
-                                })
-                            }
-                        )
+            let data = input.prop('files');
+            if (data.length > 0) {
+                let file = data[0];
+                let location = ref(storage, '/images/posters/poster-' + series.name);
+                if (series.name.trim() !== '') {
+                    let uploadTask = uploadBytesResumable(location, file)
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            let progress = snapshot.bytesTransferred / snapshot.totalBytes * 100
+                            $('#progress').val(progress);
+                        }, (error) => {
+                        }, () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then(
+                                (downloadUrl) => {
+                                    series.poster = downloadUrl;
+                                    $.ajax({
+                                        url: 'http://localhost:8080/api/manager/series/' + id,
+                                        method: 'PUT',
+                                        contentType: 'application/json; charset=UTF-8',
+                                        data: JSON.stringify(series),
+                                        headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                                        success: function (data) {
+                                            console.log(data)
+                                            window.location.href = 'list.html';
+                                        },
+                                        error: function () {
+                                            console.log('error')
+                                        }
+                                    })
+                                }
+                            )
+                        }
+                    )
+                }
+            } else {
+                series.poster = $('#poster img').attr('src')
+                console.log(series)
+                $.ajax({
+                    url: 'http://localhost:8080/api/manager/series/' + id,
+                    method: 'PUT',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(series),
+                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                    success: function (data) {
+                        console.log(data)
+                        window.location.href = 'list.html';
+                    },
+                    error: function () {
+                        console.log('error')
                     }
-                )
+                })
             }
 
         })

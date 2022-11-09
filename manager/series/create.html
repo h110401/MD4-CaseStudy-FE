@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-
+<p><a href="list.html">Back</a></p>
 <h1>Create series</h1>
 
 <table>
@@ -28,11 +28,11 @@
     </tr>
     <tr>
         <td>Category</td>
-        <td><input type="text"></td>
+        <td><select id="selectCategory" multiple></select></td>
     </tr>
     <tr>
         <td>Country</td>
-        <td><input type="text"></td>
+        <td><select id="selectCountry"></select></td>
     </tr>
     <tr>
         <td colspan="2">
@@ -94,7 +94,15 @@ Search video<br>
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
-                console.log(data)
+                let selectCategory = $('#selectCategory');
+                selectCategory.empty();
+                if (data.length > 0) {
+                    for (const cate of data) {
+                        selectCategory.append(`
+                            <option value="${cate.id}">${cate.name}</option>
+                        `)
+                    }
+                }
             },
             error: function (error) {
                 console.log(error)
@@ -106,7 +114,15 @@ Search video<br>
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
-                console.log(data)
+                let selectCountry = $('#selectCountry');
+                selectCountry.empty();
+                if (data.length > 0) {
+                    for (const country of data) {
+                        selectCountry.append(`
+                            <option value="${country.id}">${country.name}</option>
+                        `)
+                    }
+                }
             },
             error: function (error) {
                 console.log(error)
@@ -125,7 +141,10 @@ Search video<br>
             let series = {
                 name: $('#name').val(),
                 poster: '',
-                description: $('#description').val()
+                description: $('#description').val(),
+                idCategories: $('#selectCategory').val(),
+                idCountry: $('#selectCountry').val(),
+                idVideos: videos
             }
 
             let data = input.prop('files')

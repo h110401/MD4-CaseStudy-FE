@@ -6,11 +6,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
+<p><a href="../home.html">Back</a></p>
 <a href="create.html">Create</a>
 <table border="1">
     <thead>
     <tr>
         <td>ID</td>
+        <td>Name</td>
         <td>Poster</td>
         <td>Description</td>
         <td>Category</td>
@@ -39,6 +41,7 @@
                         $('#table-body').append(`
                             <tr>
                                 <td>${element.id}</td>
+                                <td>${element.name}</td>
                                 <td><img src="${element.poster}" alt="poster" width="100"></td>
                                 <td>${element.description}</td>
                                 <td>${element.category[0] ? element.category[0].name : 'null'}</td>
@@ -46,6 +49,7 @@
                                 <td>${element.user ? element.user.name : 'null'}</td>
                                 <td><a href="edit.html?id=${element.id}">Edit</a></td>
                                 <td><a href="delete.html?id=${element.id}">Delete</a></td>
+                                <td><a href="add-video.html?id=${element.id}">Add video</a></td>
                             </tr>
                         `)
                     }
