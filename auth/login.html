@@ -86,22 +86,19 @@
                 contentType: 'application/json; charset=UTF-8',
                 success: function (data){
                     console.log('data login ===> ',data)
-                    window.sessionStorage.setItem("currentUser", JSON.stringify(data));
-                    window.sessionStorage.setItem('TOKEN_KEY', data.token);
-                    window.sessionStorage.removeItem('NAME_KEY',data.name);
-                    window.sessionStorage.setItem('USERNAME_KEY',data.username);
-                    window.sessionStorage.removeItem('AVATAR_KEY',data.avatar);
-                    window.sessionStorage.setItem('EMAIL_KEY',data.email);
-                    window.sessionStorage.setItem('ROLE_KEY',JSON.stringify(data.roles))
+                    window.localStorage.setItem("currentUser", JSON.stringify(data));
+                    window.localStorage.setItem('TOKEN_KEY', data.token);
                     console.log("data .role",data.roles)
                     if(check(data.authorities,"ROLE_ADMIN")){
-                        window.location.href = '../home-manager/homeAdmin.html';
-
+                        window.location.href = '/index.html';
+                        window.localStorage.setItem('ROLE_KEY','ADMIN')
                     }else if (check(data.authorities,"ROLE_PM")){
-                        window.location.href = '../home-manager/HomePm.html';
+                        window.location.href = '/index.html';
+                        window.localStorage.setItem('ROLE_KEY','PM')
                     }
                     else {
-                        window.location.href = '../home-manager/HomeUser.html';
+                        window.location.href = '/index.html';
+                        window.localStorage.setItem('ROLE_KEY','USER')
                     }
                 }
             })
