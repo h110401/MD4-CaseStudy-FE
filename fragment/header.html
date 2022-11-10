@@ -48,6 +48,9 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <a href="/home-manager/manager/profile/profile.html" class="ms-3" id="btn-profile">
+                <button class="btn btn-outline-light">Profile</button>
+            </a>
             <a href="/home-manager/homeAdmin.html" class="ms-3" id="btn-manager">
                 <button class="btn btn-outline-light">Manager</button>
             </a>
@@ -64,10 +67,12 @@
             $('#login-btn').hide();
             $('#register-btn').hide();
             $('#btn-logout').show();
+            $('#btn-profile').show();
         } else {
             $('#login-btn').show();
             $('#register-btn').show();
             $('#btn-logout').remove();
+            $('#btn-profile').remove();
         }
         let role = window.localStorage.getItem('ROLE_KEY')
         if (!role) {
