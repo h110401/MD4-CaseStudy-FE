@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List User</title>
+</head>
+<body>
+<a href="register.html">Create</a>
+<table border="1">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>USERNAME</td>
+        <td>EMAIL</td>
+        <td>PASSWORD</td>
+        <td>AVATAR</td>
+        <td>ROLES</td>
+
+    </tr>
+    </thead>
+</table>
+<script>
+    let url = "https://md4casestudy.herokuapp.com/api/auth";
+    $(document).ready(function () {
+        showListUser()
+    })
+
+    function showListUser(){
+        $.ajax({
+            url:url,
+            method:'GET',
+            headers:{
+                Authorization: "Bearer " + window.localStorage.getItem('TOKEN_KEY')
+            },
+
+            contentType:'application/Json; charset=UTF-8',
+            success:function (data){
+                let dramTable = ''
+                for (let i = 0; i < data.length; i++) {
+                    console.log("data",data[i])
+                    dramTable +=`<tr>
+<td>${data[i].name}</td>
+<td>${data[i].username}</td>
+<td>${data[i].email}</td>
+<td>${data[i].password}</td>
+<td>${data[i].user.name}</td>
+<td>${data[i].avatar}</td>
+ <td><a href="edit.html?id=${data[i].id}">edit</a></td>
+  <td><a href="delete.html?id=${data[i].id}">delete</a></td>
+</tr>`
+                }
+                document.getElementById('tbody').innerHTML = dramTable
+            },
+            error:function (error){
+                console.log("error",error)
+            }
+        })
+    }
+
+</script>
+
+
+</body>
+</html>
