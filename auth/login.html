@@ -80,7 +80,7 @@
             let signInFormOBJ = JSON.stringify(signInForm);
             console.log('signInFormOBJ === ', signInFormOBJ)
             $.ajax({
-                url: 'http://localhost:8080/api/auth/login',
+                url: 'https://md4casestudy.herokuapp.com/api/auth/login',
                 method: 'POST',
                 data: signInFormOBJ,
                 contentType: 'application/json; charset=UTF-8',

@@ -27,7 +27,7 @@
             }
             console.log(JSON.stringify(nameFilm))
             $.ajax({
-                url:'http://localhost:8080/api/manager/films',
+                url:'https://md4casestudy.herokuapp.com/api/manager/films',
                 method:'POST',
                 headers:{
                     Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')

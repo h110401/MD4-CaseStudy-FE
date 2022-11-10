@@ -25,8 +25,9 @@
         $('#footer').load("/fragment/footer.html")
 
         $.ajax({
-            url: 'http://localhost:8080/api/manager/series',
+            url: 'https://md4casestudy.herokuapp.com/api/manager/series',
             method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
                 console.log(data)
                 const seriesRow = $('#series-row');

@@ -28,7 +28,7 @@
 
     function getFilm(){
         $.ajax({
-            url:'http://localhost:8080/api/manager/films/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/films/'+id,
             method:'GET',
             contentType:'application/Json; charset=UTF-8',
             success: function (data){
@@ -45,7 +45,7 @@
             name : $('#nameFilm').val()
         }
         $.ajax({
-            url:'http://localhost:8080/api/manager/films/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/films/'+id,
             method: 'PUT',
             data:JSON.stringify(film),
             headers:{

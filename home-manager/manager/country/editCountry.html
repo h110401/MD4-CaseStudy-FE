@@ -29,7 +29,7 @@
 
     function getCountry() {
         $.ajax({
-            url: 'http://localhost:8080/api/manager/countries/' + id,
+            url: 'https://md4casestudy.herokuapp.com/api/manager/countries/' + id,
             method: 'GET',
             headers:{
                 Authorization: window.localStorage.getItem('TOKEN_KEY')
@@ -50,10 +50,13 @@
             name: $('#nameCountry').val()
         }
         $.ajax({
-            url: 'http://localhost:8080/api/manager/countries/' + id,
+            url: 'https://md4casestudy.herokuapp.com/api/manager/countries/' + id,
             method: 'PUT',
             data: JSON.stringify(country),
             contentType: 'application/Json; charset=UTF-8',
+            headers:{
+                Authorization: window.localStorage.getItem('TOKEN_KEY')
+            },
             success: function () {
                 document.getElementById('edit').innerHTML = "edit success!"
                 return;

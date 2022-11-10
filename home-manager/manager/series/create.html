@@ -17,8 +17,8 @@
     <tr>
         <td>Poster</td>
         <td><input type="file" accept=".jpg, .png" id="posterInput">
-            <progress id="progress" max="100"></progress>
-            <input type="hidden" id="downloadUrl">
+            <progress id="progress" max="100"></progress><br>
+            <input type="text" id="downloadUrl">
             <div id="poster"></div>
         </td>
     </tr>
@@ -90,7 +90,7 @@ Search video<br>
     $(function () {
 
         $.ajax({
-            url: 'http://localhost:8080/api/manager/categories',
+            url: 'https://md4casestudy.herokuapp.com/api/manager/categories',
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
@@ -110,7 +110,7 @@ Search video<br>
         })
 
         $.ajax({
-            url: 'http://localhost:8080/api/manager/countries',
+            url: 'https://md4casestudy.herokuapp.com/api/manager/countries',
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
@@ -140,45 +140,62 @@ Search video<br>
         $('#btn-create').click(function () {
             let series = {
                 name: $('#name').val(),
-                poster: '',
+                poster: $('#downloadUrl').val(),
                 description: $('#description').val(),
                 idCategories: $('#selectCategory').val(),
                 idCountry: $('#selectCountry').val(),
                 idVideos: videos
             }
-
+            console.log(series)
             let data = input.prop('files')
-            let file = data[0];
-            let location = ref(storage, '/images/posters/poster-' + series.name);
-            if (series.name.trim() !== '') {
-                let uploadTask = uploadBytesResumable(location, file)
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        let progress = snapshot.bytesTransferred / snapshot.totalBytes * 100
-                        $('#progress').val(progress);
-                    }, (error) => {
-                    }, () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then(
-                            (downloadUrl) => {
-                                series.poster = downloadUrl;
-                                $.ajax({
-                                    url: 'http://localhost:8080/api/manager/series',
-                                    method: 'POST',
-                                    contentType: 'application/json; charset=UTF-8',
-                                    data: JSON.stringify(series),
-                                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
-                                    success: function (data) {
-                                        window.location.href = '../series/list.html';
-                                    },
-                                    error: function () {
-                                        console.log('error')
-                                    }
-                                })
-                            }
-                        )
+            if(data.length > 0) {
+                let file = data[0];
+                let location = ref(storage, '/images/posters/poster-' + series.name);
+                if (series.name.trim() !== '') {
+                    let uploadTask = uploadBytesResumable(location, file)
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            let progress = snapshot.bytesTransferred / snapshot.totalBytes * 100
+                            $('#progress').val(progress);
+                        }, (error) => {
+                        }, () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then(
+                                (downloadUrl) => {
+                                    series.poster = downloadUrl;
+                                    $.ajax({
+                                        url: 'https://md4casestudy.herokuapp.com/api/manager/series',
+                                        method: 'POST',
+                                        contentType: 'application/json; charset=UTF-8',
+                                        data: JSON.stringify(series),
+                                        headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                                        success: function (data) {
+                                            window.location.href = '../series/list.html';
+                                        },
+                                        error: function () {
+                                            console.log('error')
+                                        }
+                                    })
+                                }
+                            )
+                        }
+                    )
+                }
+            } else {
+                $.ajax({
+                    url: 'https://md4casestudy.herokuapp.com/api/manager/series',
+                    method: 'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(series),
+                    headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+                    success: function (data) {
+                        window.location.href = '../series/list.html';
+                    },
+                    error: function () {
+                        console.log('error')
                     }
-                )
+                })
             }
+
 
         })
 
@@ -186,7 +203,7 @@ Search video<br>
             let search = $('#search').val()
             if (search.trim() !== '') {
                 $.ajax({
-                    url: 'http://localhost:8080/api/manager/videos/search/' + search,
+                    url: 'https://md4casestudy.herokuapp.com/api/manager/videos/search/' + search,
                     method: 'GET',
                     headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
                     success: function (data) {

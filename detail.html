@@ -32,7 +32,7 @@
 
         let id = new URLSearchParams(window.location.search).get('id');
         $.ajax({
-            url: 'http://localhost:8080/api/manager/series/' + id,
+            url: 'https://md4casestudy.herokuapp.com/api/manager/series/' + id,
             method: 'GET',
             success: function (data) {
                 console.log(data)

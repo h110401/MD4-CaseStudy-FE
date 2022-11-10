@@ -33,7 +33,7 @@
 
     function getCategory() {
         $.ajax({
-            url: 'http://localhost:8080/api/manager/categories/' + id,
+            url: 'https://md4casestudy.herokuapp.com/api/manager/categories/' + id,
             method: 'GET',
             headers:{
                 Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
@@ -54,7 +54,7 @@
             name: $('#nameCategory').val()
         }
         $.ajax({
-            url: 'http://localhost:8080/api/manager/categories/' + id,
+            url: 'https://md4casestudy.herokuapp.com/api/manager/categories/' + id,
             method: 'PUT',
             data: JSON.stringify(category),
             contentType: 'application/Json; charset=UTF-8',
