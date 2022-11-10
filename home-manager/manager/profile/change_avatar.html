@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<table border="1">
+<span style="color: red" id="changeAvatar"></span>
+    <tr>
+        <td>newAvatar</td>
+        <td>
+            <progress id="progress"></progress><br>
+            <input type="file" id="file"><br>
+            <input type="text" id="downloadUrl">
+        </td>
+    </tr>
+    <tr>
+        <td><button onclick="changeAvatar()">Múc</button></td>
+    </tr>
+
+    <script type="module">
+        import {Firebase} from "./firebase.js";
+
+        const firebase = new Firebase();
+
+        // Set information
+        firebase.setProgress('#progress');
+        firebase.setDownloadUrl('#downloadUrl')
+
+        const input = $('#file')
+
+        // Upload file when input
+        input.change(function () {
+            // Get file
+            let data = input.prop('files')
+            let file = data[0];
+
+            firebase.setLocation('/images/' + file.name);
+            firebase.upload(file);
+
+        });
+
+
+    </script>
+    <script>
+        function changeAvatar(){
+            let pass = {
+                avatar:$('#downloadUrl').val()
+            }
+            $.ajax({
+                url: 'https://md4casestudy.herokuapp.com/api/auth/change_avatar',
+                method: 'PUT',
+                headers:{
+                    Authorization: window.localStorage.getItem('TOKEN_KEY')
+                },
+                data: JSON.stringify(pass),
+                contentType: 'application/Json; charset=UTF-8',
+                success: function () {
+                    document.getElementById('changeAvatar').innerHTML = "edit success!"
+                    return;
+                },
+                error: function (error) {
+                    console.log(error)
+                    document.getElementById('changeAvatar').innerHTML="edit_failer"
+                }
+            })
+        }
+    </script>
+</table>
+</body>
+</html>
