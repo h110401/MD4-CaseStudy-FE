@@ -32,7 +32,7 @@
 <script>
     $(function () {
         $.ajax({
-            url: 'http://localhost:8080/api/manager/series',
+            url: 'https://md4casestudy.herokuapp.com/series',
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {

@@ -29,7 +29,7 @@
 
     function getCountry() {
         $.ajax({
-            url: 'http://localhost:8080/api/manager/countries/' + id,
+            url: 'https://md4casestudy.herokuapp.com/manager/countries/' + id,
             method: 'GET',
             headers:{
                 Authorization: window.localStorage.getItem('TOKEN_KEY')

@@ -90,7 +90,7 @@ Search video<br>
     $(function () {
 
         $.ajax({
-            url: 'http://localhost:8080/api/manager/categories',
+            url: 'https://md4casestudy.herokuapp.com/categories',
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {

@@ -37,7 +37,7 @@ Search video<br>
         $('#title').text(`Add video to series ` + id);
 
         $.ajax({
-            url: 'http://localhost:8080/api/manager/series/' + id,
+            url: 'https://md4casestudy.herokuapp.com/series/' + id,
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {

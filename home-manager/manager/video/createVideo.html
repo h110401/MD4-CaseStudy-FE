@@ -73,7 +73,7 @@
             }
             console.log(JSON.stringify(video))
             $.ajax({
-                url: 'http://localhost:8080/api/manager/videos',
+                url: 'https://md4casestudy.herokuapp.com/api/manager/videos',
                 method: 'POST',
                 headers: {
                     Authorization: "Bearer " + window.localStorage.getItem('TOKEN_KEY')

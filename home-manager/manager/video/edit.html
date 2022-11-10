@@ -38,7 +38,7 @@
     })
     function getVideo(){
         $.ajax({
-            url:'http://localhost:8080/api/manager/videos/'+id,
+            url:'https://md4casestudy.herokuapp.com/manager/videos/'+id,
             method:'GET',
             headers:{
                 Authorization: "Bearer " + window.localStorage.getItem('TOKEN_KEY')

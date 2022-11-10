@@ -30,7 +30,7 @@
             }
             console.log(JSON.stringify(nameCountry))
             $.ajax({
-                url: 'http://localhost:8080/api/manager/countries',
+                url: 'https://md4casestudy.herokuapp.com/api/manager/countries',
                 method: 'POST',
                 headers: {
                     Authorization: window.localStorage.getItem('TOKEN_KEY')
