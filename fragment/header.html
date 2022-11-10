@@ -44,17 +44,27 @@
                 <!--                    <a class="nav-link disabled">Disabled</a>-->
                 <!--                </li>-->
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <a href="/home-manager/manager/profile/profile.html" class="ms-3" id="btn-profile">
-                <button class="btn btn-outline-light">Profile</button>
-            </a>
-            <a href="/home-manager/homeAdmin.html" class="ms-3" id="btn-manager">
-                <button class="btn btn-outline-light">Manager</button>
-            </a>
-            <button class="btn btn-outline-light ms-3" onclick="logout()" id="btn-logout">Logout</button>
+            <div class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                       id="search-input">
+                <button class="btn btn-outline-success" type="button" id="search-btn">Search</button>
+            </div>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="/home-manager/manager/profile/profile.html" class="ms-3" id="btn-profile">
+                        <button class="btn btn-outline-light">Profile</button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/home-manager/homeAdmin.html" class="ms-3" id="btn-manager">
+                        <button class="btn btn-outline-light">Manager</button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-light ms-3" onclick="logout()" id="btn-logout">Logout</button>
+                </li>
+            </ul>
+
         </div>
     </div>
 </nav>
@@ -89,6 +99,34 @@
         window.localStorage.removeItem('ROLE_KEY');
         window.localStorage.removeItem('currentUser');
         window.location.href = '/index.html';
-
     }
+    $('#search-btn').click(function () {
+        console.log('searching')
+        let search = $('#search-input').val().trim();
+        $.ajax({
+            url: 'https://md4casestudy.herokuapp.com/api/manager/series/search/' + search,
+            method: 'GET',
+            headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
+            success: function (data) {
+                console.log(data)
+                const seriesRow = $('#series-row');
+                seriesRow.empty();
+                for (const series of data) {
+                    seriesRow.append(`
+                        <div class="col border py-3">
+                        <a href="detail.html?id=${series.id}" class="d-flex flex-column align-items-center text-decoration-none text-dark">
+                            <img src="${series.poster}" alt="poster" style="width: 80%">
+                            <h2>${series.name}</h2>
+                            <p>Lượt xem: ${series.videos[1].view}</p>
+                        </a>
+                        </div>
+                    `)
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+
+        })
+    });
 </script>
