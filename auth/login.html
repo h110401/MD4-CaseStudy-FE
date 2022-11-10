@@ -85,7 +85,6 @@
                 data: signInFormOBJ,
                 contentType: 'application/json; charset=UTF-8',
                 success: function (data){
-                    console.log('data login ===> ',data)
                     window.localStorage.setItem("currentUser", JSON.stringify(data));
                     window.localStorage.setItem('TOKEN_KEY', data.token);
                     console.log("data .role",data.roles)
