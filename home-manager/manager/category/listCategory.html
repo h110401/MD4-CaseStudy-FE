@@ -31,7 +31,7 @@
             url: url,
             method: 'GET',
             headers:{
-                Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+                Authorization:window.localStorage.getItem('TOKEN_KEY')
             },
             contentType: 'application/Json; charset=UTF-8',
             success: function (data) {

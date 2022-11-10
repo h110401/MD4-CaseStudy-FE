@@ -31,7 +31,7 @@
             method:'GET',
             contentType:'application/Json; charset=UTF-8',
             headers:{
-                Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+                Authorization:window.localStorage.getItem('TOKEN_KEY')
             },
             success: function (data){
                 $('#nameFilm').val(data.name);
