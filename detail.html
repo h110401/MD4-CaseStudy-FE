@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div id="header" class="mb-4"></div>
+<h1 id="title"></h1>
+<div id="tap"></div>
+<div class="container-fluid">
+    <div class="row row-cols-1" style="position: relative; width: 100%; padding-top: 30%; height: 0">
+        <div class="col border" style="position: absolute; top: 0; width: 100%;height: 100%; display: flex; justify-content: center">
+            <div id="frame" class="d-flex justify-content-center" style="width: 80%">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="videos" class="d-flex p-3"></div>
+<div id="description" class="border d-flex justify-content-center"></div>
+<div id="footer"></div>
+</body>
+<script>
+    let tap = 1;
+    $(function () {
+        $('#header').load("/fragment/header.html")
+        $('#footer').load("/fragment/footer.html")
+
+        let id = new URLSearchParams(window.location.search).get('id');
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/series/' + id,
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+                $('#title').html('Dang xem ' + data.name)
+                $('#frame').html(`
+                    <iframe src="${data.videos[1].url}" width="100%" height="100%" frameborder="0"></iframe>
+                `)
+                $('#description').html(`
+                    <div class="container-fliud p-5 w-100">
+                        <div class="row border border-dark">
+                            <div class="col p-3">
+                                Mo ta:<br>
+                                ${data.description}
+                            </div>
+                        </div>
+                    </div>
+                `)
+                if (Object.keys(data.videos).length > 1) {
+                    $('#tap').html(`<h3>Tap ${1}</h3>`)
+                    for (let i = 1; i <= Object.keys(data.videos).length; i++) {
+                        $('#videos').append(`
+                        <button class="border m-2 px-3 py-2" onclick="(function() {
+                            tap = ${i};
+                            $('#tap').html('<h3>Tap ${i}</h3>')
+                            loadTap('${data.videos[i].url}');
+                        })()">Tap ${i}</button>
+                    `)
+                    }
+                }
+
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    })
+
+    function loadTap(url) {
+        $('#frame').empty();
+        $('#frame').append(`
+            <iframe src="${url}" width="100%" height="100%" frameborder="0"></iframe>
+        `)
+    }
+
+</script>
+</html>

@@ -6,16 +6,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-<div id="header"></div>
-<a href="auth/login.html">Login</a><br>
-<a href="auth/register.html">Register</a>
-<h1>Home</h1>
-<iframe src="https://www.youtube.com/embed/Ci34un4CVZU" frameborder="0"></iframe>
+<div id="header" class="mb-4"></div>
+<div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4" id="series-row">
+        <div class="col border">Col</div>
+        <div class="col border">Col</div>
+        <div class="col border">Col</div>
+        <div class="col border">Col</div>
+        <div class="col border">Col</div>
+    </div>
+</div>
+<!--<iframe src="https://www.youtube.com/embed/Ci34un4CVZU" frameborder="0"></iframe>-->
+<div id="footer" style="position: absolute; bottom: 0"></div>
 </body>
 <script>
     $(function () {
         $('#header').load("/fragment/header.html")
         $('#footer').load("/fragment/footer.html")
+
+        $.ajax({
+            url: 'http://localhost:8080/api/manager/series',
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+                const seriesRow = $('#series-row');
+                seriesRow.empty();
+                for (const series of data) {
+                    seriesRow.append(`
+                        <div class="col border py-3">
+                        <a href="detail.html?id=${series.id}" class="d-flex flex-column align-items-center text-decoration-none text-dark">
+                            <img src="${series.poster}" alt="poster" style="width: 80%">
+                            <h2>${series.name}</h2>
+                            <p>Lượt xem: ${series.videos[1].view}</p>
+                        </a>
+                        </div>
+                    `)
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
     })
 </script>
 </html>
