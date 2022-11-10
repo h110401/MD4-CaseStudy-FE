@@ -30,7 +30,7 @@
                 url:'https://md4casestudy.herokuapp.com/api/manager/films',
                 method:'POST',
                 headers:{
-                    Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+                    Authorization:window.localStorage.getItem('TOKEN_KEY')
                 },
                 contentType:'application/Json; charset=UTF-8',
                 data:JSON.stringify(nameFilm),

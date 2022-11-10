@@ -146,20 +146,20 @@
             console.log('data truoc --> ', signUpFormOBJ)
             $.ajax({
                 async: false,
-                url: 'http://localhost:8080/api/auth/signup',
+                url: 'https://md4casestudy.herokuapp.com/api/auth/signup',
                 data: signUpFormOBJ,
                 contentType: 'application/json; charset=UTF8',
                 method: 'POST',
                 success: function (data) {
-                    console.log('data sau--> ', data)
-                    if (data.message === 'nouser') {
+                    console.log('data sau--> ', data.message[0])
+                    if (data.message[0] === 'username-existed') {
                         document.getElementById('validate').innerHTML = 'The username is existed! Please try again!'
-                    } else if (data.message === 'noemail') {
+                    } else if (data.message[0] === 'email-existed') {
                         document.getElementById('validate').innerHTML = 'The email is existed! Please try again!'
-                    } else if (data.message === 'yes') {
+                    } else if (data.message[0] === 'signup-success') {
                         document.getElementById('validate').innerHTML = 'Create success!'
                     }
-                    alert('register success')
+
                 }
             })
         })
@@ -266,7 +266,7 @@
 <!--                    password: password-->
 <!--                }-->
 <!--                $.ajax({-->
-<!--                    url: 'http://localhost:8080/api/auth/signup',-->
+<!--                    url: 'https://md4casestudy.herokuapp.com/api/auth/signup',-->
 <!--                    method: 'POST',-->
 <!--                    contentType: 'application/json; charset=utf-8',-->
 <!--                    data: JSON.stringify(register),-->

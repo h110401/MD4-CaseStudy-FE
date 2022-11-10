@@ -27,11 +27,11 @@
     })
     function getFilm(){
         $.ajax({
-            url:'https://md4casestudy.herokuapp.com/manager/films/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/films/'+id,
             method:'GET',
             contentType:'application/Json; charset=UTF-8',
             headers:{
-                Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+                Authorization:window.localStorage.getItem('TOKEN_KEY')
             },
             success: function (data){
                 $('#nameFilm').val(data.name);
@@ -48,7 +48,7 @@
             name : $('#name')
         }
         $.ajax({
-            url:'http://localhost:8080/api/manager/films/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/films/'+id,
             method:'DELETE',
             data: JSON.stringify(film),
             contentType:'application/Json; charset=UTF-8',

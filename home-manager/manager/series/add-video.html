@@ -37,7 +37,11 @@ Search video<br>
         $('#title').text(`Add video to series ` + id);
 
         $.ajax({
+
             url: 'https://md4casestudy.hewrokuapp.com/series/' + id,
+
+            url: 'https://md4casestudy.herokuapp.com/api/manager/series/' + id,
+
             method: 'GET',
             headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
             success: function (data) {
@@ -58,7 +62,7 @@ Search video<br>
             let search = $('#search').val()
             if (search.trim() !== '') {
                 $.ajax({
-                    url: 'http://localhost:8080/api/manager/videos/search/' + search,
+                    url: 'https://md4casestudy.herokuapp.com/api/manager/videos/search/' + search,
                     method: 'GET',
                     headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
                     success: function (data) {
@@ -73,7 +77,7 @@ Search video<br>
                                     <td>${video.name}</td>
                                     <td id="col${video.id}"><button onclick="(function () {
                                       $.ajax({
-                                        url:  'http://localhost:8080/api/manager/series/' + ${id} + '/add/' + ${video.id},
+                                        url:  'https://md4casestudy.herokuapp.com/api/manager/series/' + ${id} + '/add/' + ${video.id},
                                         method: 'PUT',
                                         headers: {Authorization: window.localStorage.getItem('TOKEN_KEY')},
                                         success: function() {

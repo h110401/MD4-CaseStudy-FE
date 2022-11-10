@@ -28,7 +28,7 @@
     })
     function getCategory(){
         $.ajax({
-            url:'https://md4casestudy.herokuapp.com/manager/categories/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/categories/'+id,
             method:'GET',
             contentType:'application/Json; charset=UTF-8',
             success: function (data){
@@ -48,7 +48,7 @@
             url:'https://md4casestudy.herokuapp.com/api/manager/categories/'+id,
             method:'DELETE',
             headers:{
-                Authorization:"Bearer" + window.localStorage.getItem('TOKEN_KEY')
+                Authorization:window.localStorage.getItem('TOKEN_KEY')
             },
             data: JSON.stringify(category),
             contentType:'application/Json; charset=UTF-8',

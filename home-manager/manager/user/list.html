@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>List User</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-<a href="register.html">Create</a>
+<a href="/auth/register.html">Create</a>
 <table border="1">
     <thead>
     <tr>
@@ -16,12 +20,13 @@
         <td>PASSWORD</td>
         <td>AVATAR</td>
         <td>ROLES</td>
-
+        <td>DELETE</td>
     </tr>
     </thead>
+   <tbody id="tbody"></tbody>
 </table>
 <script>
-    let url = "https://md4casestudy.herokuapp.com/api/auth";
+    let url = "http://localhost:8080/api/auth";
     $(document).ready(function () {
         showListUser()
     })
@@ -30,24 +35,25 @@
         $.ajax({
             url:url,
             method:'GET',
-            headers:{
-                Authorization: "Bearer " + window.localStorage.getItem('TOKEN_KEY')
-            },
+            // headers:{
+            //     Authorization: window.localStorage.getItem('TOKEN_KEY')
+            // },
 
             contentType:'application/Json; charset=UTF-8',
             success:function (data){
+                console.log(data)
                 let dramTable = ''
                 for (let i = 0; i < data.length; i++) {
                     console.log("data",data[i])
                     dramTable +=`<tr>
+<td>${data[i].id}</td>
 <td>${data[i].name}</td>
 <td>${data[i].username}</td>
 <td>${data[i].email}</td>
 <td>${data[i].password}</td>
-<td>${data[i].user.name}</td>
 <td>${data[i].avatar}</td>
- <td><a href="edit.html?id=${data[i].id}">edit</a></td>
-  <td><a href="delete.html?id=${data[i].id}">delete</a></td>
+<td>${data[i].roles[0].name}</td>
+<td><a href="delete.html?id=${data[i].id}">delete</a></td>
 </tr>`
                 }
                 document.getElementById('tbody').innerHTML = dramTable
@@ -57,9 +63,6 @@
             }
         })
     }
-
 </script>
-
-
 </body>
 </html>

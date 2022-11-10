@@ -48,9 +48,12 @@
             name : $('#name')
         }
         $.ajax({
-            url:'http://localhost:8080/api/manager/countries/'+id,
+            url:'https://md4casestudy.herokuapp.com/api/manager/countries/'+id,
             method:'DELETE',
             data: JSON.stringify(country),
+            headers:{
+                Authorization: window.localStorage.getItem('TOKEN_KEY')
+            },
             contentType:'application/Json; charset=UTF-8',
             success:function country(){
                 document.getElementById('delete').innerHTML = "delete_success!"
